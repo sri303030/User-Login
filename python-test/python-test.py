@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from flask import make_response
 import json
 
 app = Flask(__name__)
@@ -14,12 +15,19 @@ def hello_world():
 def login():
     print request.data
     user = json.loads(request.data, strict=False)['userName']
-    pwd = json.loads(request.data,strict=False)['password']
+    pwd = json.loads(request.data, strict=False)['password']
 
     if user == 'admin' and pwd == 'admin':
-        return 'Success'
+        result = 'Success'
+        status = 201
     else:
-        return 'Fail'
+        result = 'Fail'
+        status = 403
+    rsp = {
+        'user': user,
+        'result': result
+    }
+    return make_response(json.dumps(rsp), status)
 
 
 if __name__ == '__main__':

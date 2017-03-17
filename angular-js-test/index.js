@@ -6,7 +6,7 @@ angular.module('myLogin', [])
 
 		$scope.login = function() {
 			LoginService.log($scope.userName, $scope.password).then(function(ack) {
-				if(ack === 'Success') {
+				if(ack.result === 'Success') {
 					alert('Login Success!');
 				} else {
 					alert('Login fail: ' + ack);
