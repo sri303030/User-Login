@@ -13,7 +13,11 @@ def hello_world():
 
 @app.route('/api/v1/login', methods=['POST'])
 def login():
-    print request.data
+
+    ip = request.headers.get('X-Real-Ip')
+
+    print "Received request from: " + ip + ", body:" + request.data
+
     user = json.loads(request.data, strict=False)['userName']
     pwd = json.loads(request.data, strict=False)['password']
 
