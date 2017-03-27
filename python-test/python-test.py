@@ -2,9 +2,12 @@ from flask import Flask
 from flask import request
 from flask import make_response
 import json
+import redis
+import uuid
 
 app = Flask(__name__)
 
+rclient = redis.Redis(host='localhost', port=6379, db=0)
 
 @app.route('/')
 def hello_world():
@@ -31,6 +34,14 @@ def login():
         'user': user,
         'result': result
     }
+    record = {
+	'user': user,
+	'password': pwd,
+	'ip': ip,
+	'result': result
+    }
+    rclient.set(uuid.uuid1(), json.dumps(record))
+    rclient.save()
     return make_response(json.dumps(rsp), status)
 
 
