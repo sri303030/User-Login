@@ -18,8 +18,8 @@ def hello_world():
 def login():
 
     ip = request.headers.get('X-Real-Ip')
-
-    print "Received request from: " + ip + ", body:" + request.data
+    method = request.method
+    print "Received " + method + " /api/v1/login request from: " + ip + ", body:" + request.data
 
     user = json.loads(request.data, strict=False)['userName']
     pwd = json.loads(request.data, strict=False)['password']
@@ -44,6 +44,18 @@ def login():
     rclient.save()
     return make_response(json.dumps(rsp), status)
 
+@app.route('/api/v1/users', methods=['GET'])
+def getUsers():
+    ip = request.headers.get('X-Real-Ip')
+    method = request.method
+    print "Received " + method + " /api/v1/users request from: " + ip
+
+    keys = rclient.keys()
+    values = []
+    for key in keys: 
+	values.append(rclient.get(key))
+
+    return make_response(str(values), 200)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8686, debug=True)
