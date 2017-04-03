@@ -1,6 +1,6 @@
 'user strict';
 
-angular.module('myLogin')
+angular.module('myApp')
     .service('LoginService', ['$http', '$q',
     function($http, $q) {
 
