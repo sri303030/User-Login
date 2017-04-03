@@ -5,14 +5,16 @@
         <th>Password</th>
         <th>IP</th>
         <th>Result</th>
+        <th>Time</th>
     </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="loginUser in historyUsers|orderBy:'ip'">
+        <tr ng-repeat="loginUser in historyUsers|orderBy:'time'">
             <td>{{loginUser.user||'/'}}</td>
             <td>{{loginUser.password}}</td>
             <td>{{loginUser.ip}}</td>
             <td>{{loginUser.result}}</td>
+            <td>{{loginUser.time}}</td>
         </tr>
     </tbody>
 </table>

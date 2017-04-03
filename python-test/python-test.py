@@ -4,6 +4,7 @@ from flask import make_response
 import json
 import redis
 import uuid
+import time
 
 app = Flask(__name__)
 
@@ -36,7 +37,8 @@ def login():
         'user': user,
         'password': pwd,
         'ip': request.headers.get('X-Real-Ip'),
-        'result': result
+        'result': result,
+        'time': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     }
     add_record(uuid.uuid1(), json.dumps(record))
     return make_response(json.dumps(rsp), status)
@@ -70,7 +72,8 @@ def get_all_records():
             'user': content['user'],
             'password': content['password'],
             'ip': content['ip'],
-            'result': content['result']
+            'result': content['result'],
+            'time': content['time']
         }
         values.append(user)
     return values
