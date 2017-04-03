@@ -20,9 +20,25 @@ angular.module('myApp',['ui.router'])
 				$state.go('history');
 			};
 
+		}
+	])
+	.controller('HistoryController', ['$scope', '$state', 'LoginService',
+		function ($scope, $state, LoginService) {
 			$scope.goHome = function() {
 				$state.go('login');
 			};
+
+			$scope.historyUsers = [];
+
+			getUsers();
+
+			function getUsers() {
+				LoginService.history().then(function(ack) {
+					$scope.historyUsers = angular.copy(ack.users);
+				}, function(err){
+					alert(err);
+				});
+			}
 		}
 	])
 	.config(['$stateProvider', '$urlRouterProvider',
@@ -36,8 +52,8 @@ angular.module('myApp',['ui.router'])
 				})
 				.state('history', {
 					url: '/history',
-					templateUrl: './login-history.html',
-					controller: 'LoginController'
+					templateUrl: 'login-history.html',
+					controller: 'HistoryController'
 				});
 		}
 	]);

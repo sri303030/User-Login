@@ -33,10 +33,10 @@ def login():
         'result': result
     }
     record = {
-	'user': user,
-	'password': pwd,
-	'ip': request.headers.get('X-Real-Ip'),
-	'result': result
+        'user': user,
+        'password': pwd,
+        'ip': request.headers.get('X-Real-Ip'),
+        'result': result
     }
     add_record(uuid.uuid1(), json.dumps(record))
     return make_response(json.dumps(rsp), status)
@@ -46,8 +46,10 @@ def getUsers():
     
     log()
 
-    body = get_all_records()
-    return make_response(str(body), 200)
+    ret = {
+        'users': get_all_records()
+    }
+    return make_response(json.dumps(ret), 200)
 
 def log():
     ip = request.headers.get('X-Real-Ip')
@@ -63,7 +65,14 @@ def add_record(key, value):
 def get_all_records():
     values = []
     for key in rclient.keys():
-        values.append(rclient.get(key))
+        content = json.loads(rclient.get(key))
+        user = {
+            'user': content['user'],
+            'password': content['password'],
+            'ip': content['ip'],
+            'result': content['result']
+        }
+        values.append(user)
     return values
  
 if __name__ == '__main__':

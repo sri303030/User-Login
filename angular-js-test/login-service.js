@@ -18,4 +18,14 @@ angular.module('myApp')
         return deferred.promise;
     };
 
+    this.history = function () {
+        var url = '/api/v1/users';
+        var http = $http['get'](url);
+        var deferred = $q.defer();
+        http.success(function (ack) {
+            deferred.resolve(ack);
+        });
+        return deferred.promise;
+    };
+
 }]);

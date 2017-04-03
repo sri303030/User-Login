@@ -7,6 +7,14 @@
         <th>Result</th>
     </tr>
     </thead>
+    <tbody>
+        <tr ng-repeat="loginUser in historyUsers|orderBy:'ip'">
+            <td>{{loginUser.user||'/'}}</td>
+            <td>{{loginUser.password}}</td>
+            <td>{{loginUser.ip}}</td>
+            <td>{{loginUser.result}}</td>
+        </tr>
+    </tbody>
 </table>
 
 <button ng-click="goHome()">Back</button>
